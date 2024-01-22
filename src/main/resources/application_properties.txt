@@ -1,0 +1,5 @@
+#Add these properties to the file application.properties
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
