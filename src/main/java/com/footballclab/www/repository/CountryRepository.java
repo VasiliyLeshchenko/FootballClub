@@ -14,4 +14,8 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
     @Modifying
     @Query("SELECT c FROM Club c INNER JOIN c.country co WHERE co.id = :id")
     List<Club> findClubsByCountryId(long id);
+
+    @Modifying
+    @Query("UPDATE Country SET name= :name WHERE id= :id")
+    void changeName(long id, String name);
 }

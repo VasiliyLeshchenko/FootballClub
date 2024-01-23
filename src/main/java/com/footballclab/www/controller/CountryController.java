@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/countries")
@@ -38,5 +39,14 @@ public class CountryController {
     @GetMapping("/{id}/clubs")
     public List<Club> clubsByCountryId(@PathVariable("id") long id) {
         return countryService.findClubsByCountryId(id);
+    }
+
+    @PutMapping("/{id}")
+    public void changeName(
+            @PathVariable("id") long id,
+            @RequestBody Map<String, String> request
+            ) {
+        String newName = request.get("newName");
+        countryService.changeName(id, newName);
     }
 }

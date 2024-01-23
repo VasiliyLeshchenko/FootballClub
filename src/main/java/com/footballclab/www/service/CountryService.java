@@ -5,6 +5,7 @@ import com.footballclab.www.entity.Country;
 import com.footballclab.www.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,11 @@ public class CountryService {
 
     public void delete(long id) {
         countryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void changeName(long id, String newName) {
+        countryRepository.changeName(id, newName);
     }
 
     public List<Club> findClubsByCountryId(long id) {
