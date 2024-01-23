@@ -2,6 +2,7 @@ package com.footballclab.www.controller;
 
 import com.footballclab.www.entity.Club;
 import com.footballclab.www.entity.Country;
+import com.footballclab.www.exeption.CountryNotFoundException;
 import com.footballclab.www.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,17 @@ public class CountryController {
         return countryService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public Country findById(@PathVariable("id") long id) {
+        return countryService.findById(id)
+                .orElseThrow(() -> new CountryNotFoundException("Country not found"));
+    }
+
     @PostMapping
-    public void saveCountry(@RequestBody Country country) {
-        countryService.save(country);
+    public void saveCountry(
+            @RequestParam("name") String name) {
+        Country newCountry = new Country(name);
+        countryService.save(newCountry);
     }
 
     @DeleteMapping("/{id}")
