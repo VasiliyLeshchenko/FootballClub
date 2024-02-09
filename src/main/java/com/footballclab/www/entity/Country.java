@@ -26,6 +26,9 @@ public class Country {
     private List<Player> players;
 
     public Country() {}
+    public Country(long id) {
+        this.id = id;
+    }
 
     public Country(String name) {
         this.name = name;

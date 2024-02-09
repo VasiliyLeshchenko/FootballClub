@@ -21,6 +21,10 @@ public class Position {
 
     public Position() {}
 
+    public Position(long id) {
+        this.id = id;
+    }
+
     public Position(String name) {
         this.name = name;
     }

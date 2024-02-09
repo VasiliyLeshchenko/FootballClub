@@ -7,6 +7,8 @@ import com.footballclab.www.exeption.CountryNotFoundException;
 import com.footballclab.www.exeption.PlayerNotFoundException;
 import com.footballclab.www.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,31 +35,23 @@ public class PlayerController {
                 .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
     }
 
-   /* @GetMapping("/{id}/clubs")
-    public List<Club> clubsByCountryId(@PathVariable("id") long id) {
-        return playerService.findClubsByCountryId(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePlayer(@RequestBody Player player) {
+        playerService.update(player);
+        return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public void saveCountry(
-            @RequestParam("name") String name) {
-        Country newCountry = new Country(name);
-        playerService.save(newCountry);
-    }
-
-    @PutMapping("/{id}")
-    public void changeName(
-            @PathVariable("id") long id,
-            @RequestBody Map<String, String> request
-    ) {
-        String newName = request.get("newName");
-        playerService.changeName(id, newName);
+    public ResponseEntity<String> savePlayer(@RequestBody Player player) {
+        playerService.save(player);
+        return ResponseEntity.ok("The player has been saved");
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCountry(@PathVariable("id") long id) {
+    public ResponseEntity<String> deleteCountry(@PathVariable("id") long id) {
         playerService.delete(id);
+        return ResponseEntity.ok()
+                .body("The player has been successfully deleted");
     }
-*/
 
 }

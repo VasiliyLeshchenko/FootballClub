@@ -26,6 +26,9 @@ public class Club {
     private List<Player> players;
 
     public Club() {}
+    public Club(long id) {
+        this.id = id;
+    }
 
     public Club(String name) {
         this.name = name;

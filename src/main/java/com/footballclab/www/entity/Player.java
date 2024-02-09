@@ -62,12 +62,12 @@ public class Player {
         this.name = name;
     }
 
-    public Country getSitizenship() {
+    public Country getCitizenship() {
         return citizenship;
     }
 
-    public void setSitizenship(Country sitizenship) {
-        this.citizenship = sitizenship;
+    public void setCitizenship(Country citizenship) {
+        this.citizenship = citizenship;
     }
 
     public Position getPosition() {
