@@ -6,28 +6,22 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Club")
-public class Club {
-
+@Table(name = "position")
+public class Position {
     @Id
-    @Column(name = "club_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "position_id")
     private long id;
 
-    @Column(name = "club_name")
+    @Column(name = "position_name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "country_id")
-    private Country country;
-
-    @OneToMany(mappedBy = "club")
+    @OneToMany(mappedBy = "position")
     @JsonIgnore
     private List<Player> players;
 
-    public Club() {}
+    public Position() {}
 
-    public Club(String name) {
+    public Position(String name) {
         this.name = name;
     }
 
@@ -47,11 +41,11 @@ public class Club {
         this.name = name;
     }
 
-    public Country getCountry() {
-        return country;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

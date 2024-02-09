@@ -21,6 +21,10 @@ public class Country {
     @JsonIgnore
     private List<Club> clubs;
 
+    @OneToMany(mappedBy = "citizenship")
+    @JsonIgnore
+    private List<Player> players;
+
     public Country() {}
 
     public Country(String name) {
@@ -49,5 +53,13 @@ public class Country {
 
     public void setClubs(List<Club> clubs) {
         this.clubs = clubs;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

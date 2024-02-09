@@ -2,49 +2,47 @@ package com.footballclab.www.controller;
 
 import com.footballclab.www.entity.Club;
 import com.footballclab.www.entity.Country;
+import com.footballclab.www.entity.Player;
 import com.footballclab.www.exeption.CountryNotFoundException;
-import com.footballclab.www.service.CountryService;
+import com.footballclab.www.exeption.PlayerNotFoundException;
+import com.footballclab.www.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-//TODO: add @GetMapping("/{id}/players")
-
 @RestController
-@RequestMapping("/countries")
-public class CountryController {
-
-    private final CountryService countryService;
-
+@RequestMapping("/players")
+public class PlayerController {
+    private final PlayerService playerService;
 
     @Autowired
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     @GetMapping
-    public List<Country> findAll() {
-        return countryService.findAll();
+    public List<Player> findAll() {
+        return playerService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Country findById(@PathVariable("id") long id) {
-        return countryService.findById(id)
-                .orElseThrow(() -> new CountryNotFoundException("Country not found"));
+    public Player findById(@PathVariable("id") long id) {
+        return playerService.findById(id)
+                .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
     }
 
-    @GetMapping("/{id}/clubs")
+   /* @GetMapping("/{id}/clubs")
     public List<Club> clubsByCountryId(@PathVariable("id") long id) {
-        return countryService.findClubsByCountryId(id);
+        return playerService.findClubsByCountryId(id);
     }
 
     @PostMapping
     public void saveCountry(
             @RequestParam("name") String name) {
         Country newCountry = new Country(name);
-        countryService.save(newCountry);
+        playerService.save(newCountry);
     }
 
     @PutMapping("/{id}")
@@ -53,14 +51,13 @@ public class CountryController {
             @RequestBody Map<String, String> request
     ) {
         String newName = request.get("newName");
-        countryService.changeName(id, newName);
+        playerService.changeName(id, newName);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCountry(@PathVariable("id") long id) {
-        countryService.delete(id);
+        playerService.delete(id);
     }
-
-
+*/
 
 }
