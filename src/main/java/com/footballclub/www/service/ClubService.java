@@ -1,6 +1,7 @@
 package com.footballclub.www.service;
 
 import com.footballclub.www.entity.Club;
+import com.footballclub.www.entity.Player;
 import com.footballclub.www.repository.ClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,9 @@ public class ClubService {
 
     public void delete(long id) {
         clubRepository.deleteById(id);
+    }
+
+    public List<Player> getPlayersByClubId(long id) {
+        return clubRepository.getPlayerByClubId(id);
     }
 }

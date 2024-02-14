@@ -3,6 +3,7 @@ package com.footballclub.www.controller;
 import com.footballclub.www.dto.ClubUpdateDTO;
 import com.footballclub.www.entity.Club;
 import com.footballclub.www.entity.Country;
+import com.footballclub.www.entity.Player;
 import com.footballclub.www.exeption.ClubNotFoundException;
 import com.footballclub.www.exeption.CountryNotFoundException;
 import com.footballclub.www.service.ClubService;
@@ -35,6 +36,11 @@ public class ClubController {
     public Club findById(@PathVariable("id") long id) {
         return clubService.findById(id)
                 .orElseThrow(() -> new ClubNotFoundException("Club not found"));
+    }
+
+    @GetMapping("/{id}/players")
+    public List<Player> getPlayersByClubId(@PathVariable("id") long id) {
+        return clubService.getPlayersByClubId(id);
     }
 
     @PostMapping

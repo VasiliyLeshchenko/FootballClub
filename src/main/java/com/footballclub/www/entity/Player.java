@@ -10,20 +10,22 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "player_name")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "position_id", referencedColumnName = "position_id")
+    private Position position;
+
     @ManyToOne
     @JoinColumn(name = "club_id", referencedColumnName = "club_id")
     private Club club;
-
-    @Column(name = "player_name")
-    private String name;
 
     @ManyToOne
     @JoinColumn(name = "citizenship", referencedColumnName = "country_id")
     private Country citizenship;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id", referencedColumnName = "position_id")
-    private Position position;
+
 
     public Player() {}
 
