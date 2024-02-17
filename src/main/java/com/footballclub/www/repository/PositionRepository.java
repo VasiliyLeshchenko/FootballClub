@@ -12,4 +12,8 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 
     @Query("SELECT p FROM Player p JOIN Position po ON p.position.id= po.id WHERE po.id= :id")
     List<Player> getPlayersByPositionId(long id);
+
+    @Modifying
+    @Query("UPDATE Position SET name= :name WHERE id= :id")
+    void update(long id, String name);
 }

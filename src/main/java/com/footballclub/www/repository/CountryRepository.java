@@ -11,15 +11,13 @@ import java.util.List;
 
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
-    @Modifying
-    @Query("SELECT c FROM Club c WHERE c.country.id = :id")
+    @Query("SELECT c FROM Club c JOIN Country co ON c.country.id= co.id WHERE co.id= :id")
     List<Club> findClubsByCountryId(long id);
 
     @Modifying
     @Query("UPDATE Country SET name= :name WHERE id= :id")
     void changeName(long id, String name);
 
-    @Modifying
     @Query("SELECT p FROM Player p JOIN Country co ON p.citizenship.id=co.id WHERE co.id= :id")
     List<Player> findPlayersByCountryId(long id);
 }

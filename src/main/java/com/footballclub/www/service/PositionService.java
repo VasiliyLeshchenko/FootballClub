@@ -29,4 +29,19 @@ public class PositionService {
     public List<Player> getPlayersByPositionId(long id) {
         return positionRepository.getPlayersByPositionId(id);
     }
+
+    public void save(Position position) {
+        positionRepository.save(position);
+    }
+
+    public void update(Position position) {
+        positionRepository.update(
+                position.getId(),
+                position.getName()
+        );
+    }
+
+    public void delete(long id) {
+        positionRepository.deleteById(id);
+    }
 }

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    @Query("UPDATE Player SET club= :club, name= :name, position= :position WHERE id= :id")
     @Modifying
+    @Query("UPDATE Player SET club= :club, name= :name, position= :position WHERE id= :id")
     void update(long id, Club club, String name, Position position);
 }
