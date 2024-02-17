@@ -15,6 +15,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     void update(long clubId, String clubName, long countryId);
 
     @Modifying
-    @Query("SELECT p FROM Player p WHERE p.club.id= :id")
+    @Query("SELECT p FROM Player p JOIN Club c ON p.club.id=c.id WHERE c.id= :id")
     List<Player> getPlayerByClubId(long id);
 }

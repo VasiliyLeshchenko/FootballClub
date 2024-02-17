@@ -20,6 +20,6 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
     void changeName(long id, String name);
 
     @Modifying
-    @Query("SELECT p FROM Player p WHERE p.citizenship.id= :id")
+    @Query("SELECT p FROM Player p JOIN Country co ON p.citizenship.id=co.id WHERE co.id= :id")
     List<Player> findPlayersByCountryId(long id);
 }
