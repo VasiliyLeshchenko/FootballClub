@@ -31,16 +31,16 @@ public class PlayerController {
                 .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updatePlayer(@RequestBody Player player) {
-        playerService.update(player);
-        return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
-    }
-
     @PostMapping
     public ResponseEntity<String> savePlayer(@RequestBody Player player) {
         playerService.save(player);
         return ResponseEntity.ok("The player has been saved");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePlayer(@RequestBody Player player) {
+        playerService.update(player);
+        return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

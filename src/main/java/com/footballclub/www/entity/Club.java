@@ -25,6 +25,16 @@ public class Club {
     @JsonIgnore
     private List<Player> players;
 
+    @OneToMany(mappedBy = "homeClub")
+    @JsonIgnore
+    private List<Game> homeGames;
+
+    @OneToMany(mappedBy = "awayClub")
+    @JsonIgnore
+    private List<Game> awayGames;
+
+
+
     public Club() {}
     public Club(long id) {
         this.id = id;
@@ -64,5 +74,21 @@ public class Club {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public List<Game> getHomeGames() {
+        return homeGames;
+    }
+
+    public void setHomeGames(List<Game> homeGames) {
+        this.homeGames = homeGames;
+    }
+
+    public List<Game> getAwayGames() {
+        return awayGames;
+    }
+
+    public void setAwayGames(List<Game> awayGames) {
+        this.awayGames = awayGames;
     }
 }

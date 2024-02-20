@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+//TODO: DELETE SQL update query everywhere after check game update method
 public interface ClubRepository extends JpaRepository<Club, Long> {
 
     @Modifying
