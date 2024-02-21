@@ -33,12 +33,7 @@ public class Club {
     @JsonIgnore
     private List<Game> awayGames;
 
-
-
     public Club() {}
-    public Club(long id) {
-        this.id = id;
-    }
 
     public Club(String name) {
         this.name = name;

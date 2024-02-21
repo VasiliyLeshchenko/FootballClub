@@ -2,11 +2,13 @@ package com.footballclub.www.controller;
 
 import com.footballclub.www.entity.Club;
 import com.footballclub.www.entity.Country;
+import com.footballclub.www.entity.Game;
 import com.footballclub.www.entity.Player;
 import com.footballclub.www.exeption.ClubNotFoundException;
 import com.footballclub.www.exeption.CountryNotFoundException;
 import com.footballclub.www.service.ClubService;
 import com.footballclub.www.service.CountryService;
+import com.footballclub.www.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +19,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/clubs")
 public class ClubController {
-
     private final ClubService clubService;
     private final CountryService countryService;
+    private final GameService gameService;
 
     @Autowired
-    public ClubController(ClubService clubService, CountryService countryService) {
+    public ClubController(ClubService clubService, CountryService countryService, GameService gameService) {
         this.clubService = clubService;
         this.countryService = countryService;
+        this.gameService = gameService;
     }
 
     @GetMapping
@@ -41,6 +44,26 @@ public class ClubController {
     @GetMapping("/{id}/players")
     public List<Player> getPlayersByClubId(@PathVariable("id") long id) {
         return clubService.getPlayersByClubId(id);
+    }
+
+    @GetMapping("/{id}/home-games")
+    public List<Game> getHomeGames(@PathVariable("id") long id) {
+        return gameService.getHomeGamesByClubId(id);
+    }
+
+    @GetMapping("/{id}/away-games")
+    public List<Game> getAwayGames(@PathVariable("id") long id) {
+        return gameService.getAwayGamesByClubId(id);
+    }
+
+    @GetMapping("/{id}/win-games")
+    public List<Game> getWinGames(@PathVariable("id") long id) {
+        return gameService.getWinGamesByClubId(id);
+    }
+
+    @GetMapping("/{id}/lose-games")
+    public List<Game> getLoseGames(@PathVariable("id") long id) {
+        return gameService.getLoseGamesByClubId(id);
     }
 
     @PostMapping

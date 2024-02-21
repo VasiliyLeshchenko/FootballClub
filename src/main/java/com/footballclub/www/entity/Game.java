@@ -10,6 +10,7 @@ import java.util.Date;
 public class Game {
     @Id
     @Column(name = "game_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

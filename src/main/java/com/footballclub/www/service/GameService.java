@@ -25,6 +25,13 @@ public class GameService {
     public List<Game> findAll() {
         return gameRepository.findAll();
     }
+    public List<Game> getHomeGamesByClubId(long clubId) {
+        return gameRepository.getHomeGamesByClubId(clubId);
+    }
+
+    public List<Game> getAwayGamesByClubId(long clubId) {
+        return gameRepository.getAwayGamesByClubId(clubId);
+    }
 
     public void save(Game game) {
         gameRepository.save(game);
@@ -33,6 +40,14 @@ public class GameService {
     @Transactional
     public void update(Game game) {
         gameRepository.save(game);
+    }
+
+    public List<Game> getWinGamesByClubId(long clubId) {
+        return gameRepository.getWinGamesBy(clubId);
+    }
+
+    public List<Game> getLoseGamesByClubId(long clubId) {
+        return gameRepository.getLoseGamesBy(clubId);
     }
 
     public void delete(long id) {
