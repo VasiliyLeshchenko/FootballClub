@@ -1,6 +1,5 @@
 package com.footballclub.www.controller;
 
-import com.footballclub.www.dto.ClubUpdateDTO;
 import com.footballclub.www.entity.Club;
 import com.footballclub.www.entity.Country;
 import com.footballclub.www.entity.Player;
@@ -59,24 +58,15 @@ public class ClubController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateClub(
-            @PathVariable("id") long clubId,
-            @RequestBody ClubUpdateDTO clubUpdateDTO
-    ) {
-        clubService.update(
-                clubId,
-                clubUpdateDTO.getClubName(),
-                clubUpdateDTO.getCountryId()
-        );
+    public ResponseEntity<String> updateClub(@RequestBody Club club) {
+        clubService.update(club);
 
         return ResponseEntity
                 .ok("Club updated successfully");
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClub(
-            @PathVariable("id") long id
-    ) {
+    public void deleteClub(@PathVariable("id") long id) {
         clubService.delete(id);
     }
 }

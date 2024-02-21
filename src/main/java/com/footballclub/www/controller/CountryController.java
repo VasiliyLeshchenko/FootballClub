@@ -52,12 +52,8 @@ public class CountryController {
     }
 
     @PutMapping("/{id}")
-    public void changeName(
-            @PathVariable("id") long id,
-            @RequestBody Map<String, String> request
-    ) {
-        String newName = request.get("newName");
-        countryService.changeName(id, newName);
+    public void changeName(@RequestBody Country country) {
+        countryService.update(country);
     }
 
     @DeleteMapping("/{id}")

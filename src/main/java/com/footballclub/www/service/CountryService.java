@@ -38,8 +38,8 @@ public class CountryService {
     }
 
     @Transactional
-    public void changeName(long id, String newName) {
-        countryRepository.changeName(id, newName);
+    public void update(Country country) {
+        countryRepository.save(country);
     }
 
     public List<Club> findClubsByCountryId(long id) {

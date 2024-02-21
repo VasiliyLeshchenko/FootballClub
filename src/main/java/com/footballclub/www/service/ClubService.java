@@ -33,8 +33,8 @@ public class ClubService {
     }
 
     @Transactional
-    public void update(long clubId, String name, long countryId) {
-        clubRepository.update(clubId, name, countryId);
+    public void update(Club club) {
+        clubRepository.save(club);
     }
 
     public void delete(long id) {

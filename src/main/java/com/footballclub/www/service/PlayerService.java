@@ -33,12 +33,7 @@ public class PlayerService {
 
     @Transactional
     public void update(Player player) {
-        playerRepository.update(
-                player.getId(),
-                player.getClub(),
-                player.getName(),
-                player.getPosition()
-        );
+        playerRepository.save(player);
     }
 
     public void delete(long id) {

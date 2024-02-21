@@ -5,6 +5,7 @@ import com.footballclub.www.entity.Position;
 import com.footballclub.www.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +35,9 @@ public class PositionService {
         positionRepository.save(position);
     }
 
+    @Transactional
     public void update(Position position) {
-        positionRepository.update(
-                position.getId(),
-                position.getName()
-        );
+        positionRepository.save(position);
     }
 
     public void delete(long id) {

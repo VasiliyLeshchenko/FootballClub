@@ -10,11 +10,6 @@ import java.util.List;
 
 //TODO: DELETE SQL update query everywhere after check game update method
 public interface ClubRepository extends JpaRepository<Club, Long> {
-
-    @Modifying
-    @Query("UPDATE Club SET name= :clubName, country.id= :countryId WHERE id= :clubId")
-    void update(long clubId, String clubName, long countryId);
-
     @Query("SELECT p FROM Player p JOIN Club c ON p.club.id=c.id WHERE c.id= :id")
     List<Player> getPlayerByClubId(long id);
 }
