@@ -80,6 +80,11 @@ public class ClubController {
         clubService.save(newClub);
     }
 
+   /* @GetMapping
+    public List<Club> findClubsByName(@RequestParam("clubName") String clubName) {
+        return clubService.findByName(clubName);
+    }*/
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateClub(@RequestBody Club club) {
         clubService.update(club);

@@ -12,4 +12,6 @@ import java.util.List;
 public interface ClubRepository extends JpaRepository<Club, Long> {
     @Query("SELECT p FROM Player p JOIN Club c ON p.club.id=c.id WHERE c.id= :id")
     List<Player> getPlayerByClubId(long id);
+
+    //@Query("SELECT c FROM Club c WHERE c.name LIKE :name")
 }

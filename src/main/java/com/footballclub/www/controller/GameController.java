@@ -32,16 +32,6 @@ public class GameController {
                 .orElseThrow(() -> new GameNotFoundException("Game not found"));
     }
 
-    /*@GetMapping("/club/{club_id}/home-games")
-    public List<Game> getHomeGamesByClubId(@PathVariable("club_id") long clubId) {
-        return gameService.getHomeGamesByClubId(clubId);
-    }*/
-
-//    @GetMapping("/club/{club_id}/away-games")
-//    public List<Game> getAwayGamesByClubId(@PathVariable("club_id") long clubId) {
-//        return gameService.getAwayGamesByClubId(clubId);
-//    }
-
     @PostMapping
     public ResponseEntity<String> saveGame(@RequestBody Game game) {
         gameService.save(game);

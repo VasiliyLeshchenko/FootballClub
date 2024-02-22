@@ -43,6 +43,15 @@ public class PlayerController {
         return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> changeClub(
+            @PathVariable("id") long id,
+            @RequestParam("newClubId") long clubId
+    ) {
+        playerService.changeClub(id, clubId);
+        return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCountry(@PathVariable("id") long id) {
         playerService.delete(id);
