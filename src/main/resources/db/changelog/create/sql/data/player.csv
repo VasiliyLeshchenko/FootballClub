@@ -1,0 +1,21 @@
+club_id,position_id,player_name,citizenship
+1,1,'Lionel Messi',1
+1,7,'Gerard Piqué',13
+2,1,'Karim Benzema',13
+2,2,'Sergio Ramos',13
+3,1,'Luis Suárez',15
+3,4,'João Félix',12
+4,1,'Robert Lewandowski',8
+4,2,'David Alaba',13
+5,1,'Erling Haaland',8
+5,2,'Mats Hummels',8
+6,3,'Bruno Fernandes',6
+6,3,'Paul Pogba',6
+7,3,'Jordan Henderson',6
+7,2,'Virgil van Dijk',6
+8,4,'Cristiano Ronaldo',9
+8,7,'Giorgio Chiellini',9
+9,4,'Zlatan Ibrahimović',9
+9,7,'Alessio Romagnoli',9
+10,4,'Neymar Jr.',7
+10,3,'Marco Verratti',7

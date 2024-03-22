@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="game" author="Leshchenko Vasiliy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="game"/>
+            </not>
+        </preConditions>
+        <sqlFile path="db/changelog/create/sql/create-game-table.sql"/>
+    </changeSet>
+    <changeSet id="game_insert" author="Leshchenko Vasiliy">
+        <preConditions onFail="MARK_RAN">
+            <tableIsEmpty tableName="game"/>
+        </preConditions>
+        <loadData tableName="game" file="db/changelog/create/sql/data/game.csv"/>
+    </changeSet>
+</databaseChangeLog>

@@ -27,7 +27,8 @@ public class ClubService {
     public Optional<Club> findById(long id) {
         return clubRepository.findById(id);
     }
-    /*public List<Club> findByName(String name) {
+
+  /*  //public List<Club> findByName(String name) {
        return clubRepository.findByName(name);
     }*/
 

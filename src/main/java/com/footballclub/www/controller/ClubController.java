@@ -80,7 +80,9 @@ public class ClubController {
         clubService.save(newClub);
     }
 
-   /* @GetMapping
+
+    //TODO: FINISH SEARCH CLUBS BY NAME
+    /*@GetMapping
     public List<Club> findClubsByName(@RequestParam("clubName") String clubName) {
         return clubService.findByName(clubName);
     }*/
