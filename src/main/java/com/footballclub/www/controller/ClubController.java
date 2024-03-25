@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO: Add Get request for games
 @RestController
 @RequestMapping("/clubs")
 public class ClubController {
