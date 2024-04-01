@@ -1,15 +1,17 @@
 package com.footballclubapplication.www.controller;
 
-import com.footballclubapplication.www.entity.Club;
-import com.footballclubapplication.www.entity.Country;
-import com.footballclubapplication.www.entity.Game;
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.exeption.ClubNotFoundException;
-import com.footballclubapplication.www.exeption.CountryNotFoundException;
+import com.footballclub.core.dto.ClubDTO;
+import com.footballclub.core.dto.mapper.ClubMapper;
+import com.footballclub.core.entity.Club;
+import com.footballclub.core.entity.Country;
+import com.footballclub.core.entity.Game;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.exception.ClubNotFoundException;
+import com.footballclub.core.exception.CountryNotFoundException;
 import com.footballclubapplication.www.service.ClubService;
 import com.footballclubapplication.www.service.CountryService;
 import com.footballclubapplication.www.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clubs")
+@RequiredArgsConstructor
 public class ClubController {
     private final ClubService clubService;
     private final CountryService countryService;
     private final GameService gameService;
-
-    @Autowired
-    public ClubController(ClubService clubService, CountryService countryService, GameService gameService) {
-        this.clubService = clubService;
-        this.countryService = countryService;
-        this.gameService = gameService;
-    }
 
     @GetMapping
     public List<Club> findAll() {
@@ -66,15 +62,11 @@ public class ClubController {
     }
 
     @PostMapping
-    public void  saveClub(
-            @RequestParam("clubName") String clubName,
-            @RequestParam("countryId") long countryId
-    ) {
-        Country country = countryService.findById(countryId)
+    public void  saveClub(@RequestBody ClubDTO clubDTO) {
+        Country country = countryService.findById(clubDTO.getCountry().getId())
                 .orElseThrow(() -> new CountryNotFoundException("Country not found"));
 
-        Club newClub = new Club(clubName);
-        newClub.setCountry(country);
+        Club newClub = ClubMapper.INSTANCE.toClub(clubDTO);
 
         clubService.save(newClub);
     }
@@ -87,9 +79,8 @@ public class ClubController {
     }*/
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateClub(@RequestBody Club club) {
-        clubService.update(club);
-
+    public ResponseEntity<String> updateClub(@RequestBody ClubDTO clubDTO) {
+        clubService.update(ClubMapper.INSTANCE.toClub(clubDTO));
         return ResponseEntity
                 .ok("Club updated successfully");
     }

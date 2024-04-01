@@ -1,24 +1,20 @@
 package com.footballclubapplication.www.service;
 
-import com.footballclubapplication.www.entity.Club;
-import com.footballclubapplication.www.entity.Player;
+import com.footballclub.core.entity.Club;
+import com.footballclub.core.entity.Player;
 import com.footballclubapplication.www.repository.ClubRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class ClubService {
 
     private final ClubRepository clubRepository;
-
-    @Autowired
-    public ClubService(ClubRepository clubRepository) {
-        this.clubRepository = clubRepository;
-    }
 
     public List<Club> findAll() {
         return clubRepository.findAll();

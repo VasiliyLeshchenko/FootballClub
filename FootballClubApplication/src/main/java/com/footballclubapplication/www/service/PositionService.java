@@ -1,23 +1,19 @@
 package com.footballclubapplication.www.service;
 
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.entity.Position;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.entity.Position;
 import com.footballclubapplication.www.repository.PositionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class PositionService {
     private final PositionRepository positionRepository;
-
-    @Autowired
-    public PositionService(PositionRepository positionRepository) {
-        this.positionRepository = positionRepository;
-    }
 
     public Optional<Position> findById(long id) {
         return positionRepository.findById(id);

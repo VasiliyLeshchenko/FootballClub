@@ -1,28 +1,24 @@
 package com.footballclubapplication.www.service;
 
-import com.footballclubapplication.www.entity.Club;
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.exeption.PlayerNotFoundException;
+import com.footballclub.core.entity.Club;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.exception.PlayerNotFoundException;
 import com.footballclubapplication.www.repository.ClubRepository;
 import com.footballclubapplication.www.repository.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.footballclub.core.dto.PlayerStatisticsDTO;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class PlayerService {
-
     private final PlayerRepository playerRepository;
     private final ClubRepository clubRepository;
-
-    @Autowired
-    public PlayerService(PlayerRepository playerRepository, ClubRepository clubRepository) {
-        this.playerRepository = playerRepository;
-        this.clubRepository = clubRepository;
-    }
+    private final PlayerStatisticsProducer statisticsProducer;
 
     public List<Player> findAll() {
         return playerRepository.findAll();
@@ -56,5 +52,9 @@ public class PlayerService {
 
     public void delete(long id) {
         playerRepository.deleteById(id);
+    }
+
+    public void sendStatistics(PlayerStatisticsDTO statistics) {
+        statisticsProducer.sendStatistics(statistics);
     }
 }

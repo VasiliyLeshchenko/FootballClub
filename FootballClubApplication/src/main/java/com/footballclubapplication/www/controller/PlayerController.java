@@ -1,10 +1,13 @@
 package com.footballclubapplication.www.controller;
 
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.exeption.PlayerNotFoundException;
+import com.footballclub.core.dto.PlayerDTO;
+import com.footballclub.core.dto.mapper.PlayerMapper;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.exception.PlayerNotFoundException;
 import com.footballclubapplication.www.service.PlayerService;
 import com.footballclubapplication.www.service.PlayerStatisticsProducer;
-import org.springframework.beans.factory.annotation.Autowired;
+//import statistics.entity.PlayerStatistics;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,20 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/players")
+@RequiredArgsConstructor
 public class PlayerController {
     private final PlayerService playerService;
     private final PlayerStatisticsProducer playerStatisticsProducer;
-
-    @Autowired
-    public PlayerController(PlayerService playerService, PlayerStatisticsProducer playerStatisticsProducer) {
-        this.playerService = playerService;
-        this.playerStatisticsProducer = playerStatisticsProducer;
-    }
-
-    @PostMapping("/send")
-    public void sendStatistics(@RequestBody String message) {
-        playerStatisticsProducer.sendMessage(message);
-    }
 
     @GetMapping
     public List<Player> findAll() {
@@ -40,14 +33,14 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> savePlayer(@RequestBody Player player) {
-        playerService.save(player);
+    public ResponseEntity<String> savePlayer(@RequestBody PlayerDTO playerDTO) {
+        playerService.save(PlayerMapper.INSTANCE.toPlayer(playerDTO));
         return ResponseEntity.ok("The player has been saved");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updatePlayer(@RequestBody Player player) {
-        playerService.update(player);
+    public ResponseEntity<String> updatePlayer(@RequestBody PlayerDTO playerDTO) {
+        playerService.update(PlayerMapper.INSTANCE.toPlayer(playerDTO));
         return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 

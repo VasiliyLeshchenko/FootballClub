@@ -15,5 +15,6 @@
     <modules>
         <module>FootballClubApplication</module>
         <module>FootballClubStatistics</module>
+        <module>FootballClubCore</module>
     </modules>
 </project>

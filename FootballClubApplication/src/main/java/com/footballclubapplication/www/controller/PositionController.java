@@ -1,10 +1,12 @@
 package com.footballclubapplication.www.controller;
 
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.entity.Position;
-import com.footballclubapplication.www.exeption.PositionNotFoundException;
+import com.footballclub.core.dto.PositionDTO;
+import com.footballclub.core.dto.mapper.PositionMapper;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.entity.Position;
+import com.footballclub.core.exception.PositionNotFoundException;
 import com.footballclubapplication.www.service.PositionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +16,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/positions")
+@RequiredArgsConstructor
 public class PositionController {
     private final PositionService positionService;
-
-    @Autowired
-    public PositionController(PositionService positionService) {
-        this.positionService = positionService;
-    }
 
     @GetMapping
     public List<Position> findAll() {
@@ -39,15 +37,15 @@ public class PositionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody Position position) {
-        positionService.save(position);
+    public ResponseEntity<String> save(@RequestBody PositionDTO positionDTO) {
+        positionService.save(PositionMapper.INSTANCE.toPosition(positionDTO));
         return ResponseEntity
                 .ok("The position was been saved");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody Position position) {
-        positionService.update(position);
+    public ResponseEntity<String> update(@RequestBody PositionDTO positionDTO) {
+        positionService.update(PositionMapper.INSTANCE.toPosition(positionDTO));
         return ResponseEntity
                 .ok("The position has been successfully updated");
     }
