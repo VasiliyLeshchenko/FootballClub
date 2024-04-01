@@ -1,4 +1,4 @@
-package com.footballclubapplication.www.exeption;
+package com.footballclub.core.exception;
 
 public class GameNotFoundException extends RuntimeException {
     public GameNotFoundException(String message) {

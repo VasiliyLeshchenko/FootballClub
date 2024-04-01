@@ -1,27 +1,22 @@
 package com.footballclubapplication.www.controller;
 
-import com.footballclubapplication.www.entity.Club;
-import com.footballclubapplication.www.entity.Country;
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.exeption.CountryNotFoundException;
+import com.footballclub.core.dto.CountryDTO;
+import com.footballclub.core.dto.mapper.CountryMapper;
+import com.footballclub.core.entity.Club;
+import com.footballclub.core.entity.Country;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.exception.CountryNotFoundException;
 import com.footballclubapplication.www.service.CountryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/countries")
+@RequiredArgsConstructor
 public class CountryController {
-
     private final CountryService countryService;
-
-
-    @Autowired
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
 
     @GetMapping
     public List<Country> findAll() {
@@ -44,15 +39,23 @@ public class CountryController {
         return countryService.findPlayersByCountryId(id);
     }
 
-    @PostMapping
+    /*@PostMapping
     public void saveCountry(
             @RequestParam("name") String name) {
         Country newCountry = new Country(name);
         countryService.save(newCountry);
+    }*/
+
+    @PostMapping
+    public void saveCountry(
+            @RequestBody CountryDTO countryDTO) {
+        Country newCountry = CountryMapper.INSTANCE.toCountry(countryDTO);
+        countryService.save(newCountry);
     }
 
     @PutMapping("/{id}")
-    public void changeName(@RequestBody Country country) {
+    public void changeName(@RequestBody CountryDTO countryDTO) {
+        Country country = CountryMapper.INSTANCE.toCountry(countryDTO);
         countryService.update(country);
     }
 

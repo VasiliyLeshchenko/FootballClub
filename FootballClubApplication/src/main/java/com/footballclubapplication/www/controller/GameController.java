@@ -2,10 +2,13 @@ package com.footballclubapplication.www.controller;
 
 //TODO: Add code for with Game entity
 
-import com.footballclubapplication.www.entity.Game;
-import com.footballclubapplication.www.exeption.GameNotFoundException;
+import com.footballclub.core.dto.GameDTO;
+import com.footballclub.core.dto.GoalDTO;
+import com.footballclub.core.dto.mapper.GameMapper;
+import com.footballclub.core.entity.Game;
+import com.footballclub.core.exception.GameNotFoundException;
 import com.footballclubapplication.www.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +16,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/games")
+@RequiredArgsConstructor
 public class GameController {
     private final GameService gameService;
-
-    @Autowired
-    public GameController(GameService gameService) {
-        this.gameService = gameService;
-    }
 
     @GetMapping
     public List<Game> findAll() {
@@ -32,16 +31,24 @@ public class GameController {
                 .orElseThrow(() -> new GameNotFoundException("Game not found"));
     }
 
+    //TODO: новое
+    @PostMapping("/goal")
+    public ResponseEntity<Void> goal(@RequestBody GoalDTO goal) {
+        gameService.goal(goal);
+        return ResponseEntity.ok()
+                .build();
+    }
+
     @PostMapping
-    public ResponseEntity<String> saveGame(@RequestBody Game game) {
-        gameService.save(game);
+    public ResponseEntity<String> saveGame(@RequestBody GameDTO gameDTO) {
+        gameService.save(GameMapper.INSTANCE.toGame(gameDTO));
         return ResponseEntity.ok()
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateGame(@RequestBody Game game) {
-        gameService.update(game);
+    public ResponseEntity<String> updateGame(@RequestBody GameDTO gameDTO) {
+        gameService.update(GameMapper.INSTANCE.toGame(gameDTO));
         return ResponseEntity.ok()
                 .build();
     }

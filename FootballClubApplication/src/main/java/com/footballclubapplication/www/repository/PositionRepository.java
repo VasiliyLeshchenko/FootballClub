@@ -1,9 +1,8 @@
 package com.footballclubapplication.www.repository;
 
-import com.footballclubapplication.www.entity.Player;
-import com.footballclubapplication.www.entity.Position;
+import com.footballclub.core.entity.Player;
+import com.footballclub.core.entity.Position;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

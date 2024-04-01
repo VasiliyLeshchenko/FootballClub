@@ -1,25 +1,21 @@
 package com.footballclubapplication.www.service;
 
-import com.footballclubapplication.www.entity.Club;
-import com.footballclubapplication.www.entity.Country;
-import com.footballclubapplication.www.entity.Player;
+import com.footballclub.core.entity.Club;
+import com.footballclub.core.entity.Country;
+import com.footballclub.core.entity.Player;
 import com.footballclubapplication.www.repository.CountryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CountryService {
 
     private final CountryRepository countryRepository;
-
-    @Autowired
-    public CountryService(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
 
     public List<Country> findAll() {
         return countryRepository.findAll();
