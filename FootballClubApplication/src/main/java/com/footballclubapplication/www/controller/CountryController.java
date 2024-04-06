@@ -8,6 +8,8 @@ import com.footballclub.core.entity.Player;
 import com.footballclub.core.exception.CountryNotFoundException;
 import com.footballclubapplication.www.service.CountryService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,50 +19,51 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CountryController {
     private final CountryService countryService;
+    private final Logger logger = LoggerFactory.getLogger(CountryController.class);
 
     @GetMapping
     public List<Country> findAll() {
+        logger.info("Find all countries");
         return countryService.findAll();
     }
 
     @GetMapping("/{id}")
     public Country findById(@PathVariable("id") long id) {
+        logger.info("Find country by id: {}", id);
         return countryService.findById(id)
                 .orElseThrow(() -> new CountryNotFoundException("Country not found"));
     }
 
     @GetMapping("/{id}/clubs")
-    public List<Club> clubsByCountryId(@PathVariable("id") long id) {
+    public List<Club> findClubsByCountryId(@PathVariable("id") long id) {
+        logger.info("Find clubs by country id: {}", id);
         return countryService.findClubsByCountryId(id);
     }
 
     @GetMapping("/{id}/players")
-    public List<Player> playersByCountryId(@PathVariable("id") long id) {
+    public List<Player> findPlayersByCountryId(@PathVariable("id") long id) {
+        logger.info("Find players by country id: {}", id);
         return countryService.findPlayersByCountryId(id);
     }
 
-    /*@PostMapping
-    public void saveCountry(
-            @RequestParam("name") String name) {
-        Country newCountry = new Country(name);
-        countryService.save(newCountry);
-    }*/
-
     @PostMapping
-    public void saveCountry(
+    public void save(
             @RequestBody CountryDTO countryDTO) {
+        logger.info("Save country: {}", countryDTO);
         Country newCountry = CountryMapper.INSTANCE.toCountry(countryDTO);
         countryService.save(newCountry);
     }
 
     @PutMapping("/{id}")
-    public void changeName(@RequestBody CountryDTO countryDTO) {
+    public void update(@RequestBody CountryDTO countryDTO) {
+        logger.info("Update country: {}", countryDTO);
         Country country = CountryMapper.INSTANCE.toCountry(countryDTO);
         countryService.update(country);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCountry(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) {
+        logger.info("Delete country by id: {}", id);
         countryService.delete(id);
     }
 

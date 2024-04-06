@@ -7,6 +7,8 @@ import com.footballclub.core.entity.Position;
 import com.footballclub.core.exception.PositionNotFoundException;
 import com.footballclubapplication.www.service.PositionService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,20 +21,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PositionController {
     private final PositionService positionService;
+    private final Logger logger = LoggerFactory.getLogger(PositionController.class);
 
     @GetMapping
     public List<Position> findAll() {
+        logger.info("Find all positions");
         return positionService.findAll();
     }
 
     @GetMapping("/{id}")
     public Position findById(@PathVariable("id") long id) {
+        logger.info("Find position by id: {}", id);
         return positionService.findById(id)
                 .orElseThrow(() -> new PositionNotFoundException("Position not found"));
     }
 
     @GetMapping("/{id}/players")
     public List<Player> getPlayersByPositionId(@PathVariable("id") long id){
+        logger.info("Find players by position id: {}", id);
         return positionService.getPlayersByPositionId(id);
     }
 

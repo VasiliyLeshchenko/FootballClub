@@ -1,5 +1,6 @@
 package com.footballclubapplication.www.controller;
 
+import ch.qos.logback.classic.Level;
 import com.footballclub.core.dto.ClubDTO;
 import com.footballclub.core.dto.mapper.ClubMapper;
 import com.footballclub.core.entity.Club;
@@ -12,6 +13,9 @@ import com.footballclubapplication.www.service.ClubService;
 import com.footballclubapplication.www.service.CountryService;
 import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MarkerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,46 +28,55 @@ public class ClubController {
     private final ClubService clubService;
     private final CountryService countryService;
     private final GameService gameService;
+    private final Logger logger = LoggerFactory.getLogger(ClubController.class);
 
     @GetMapping
     public List<Club> findAll() {
+        logger.info("Find all clubs");
         return clubService.findAll();
     }
 
     @GetMapping("/{id}")
     public Club findById(@PathVariable("id") long id) {
+        logger.info("Find club by id: {}", id);
         return clubService.findById(id)
                 .orElseThrow(() -> new ClubNotFoundException("Club not found"));
     }
 
     @GetMapping("/{id}/players")
     public List<Player> getPlayersByClubId(@PathVariable("id") long id) {
+        logger.info("Find players by club id: {}", id);
         return clubService.getPlayersByClubId(id);
     }
 
     @GetMapping("/{id}/home-games")
     public List<Game> getHomeGames(@PathVariable("id") long id) {
+        logger.info("Find home games by club id: {}", id);
         return gameService.getHomeGamesByClubId(id);
     }
 
     @GetMapping("/{id}/away-games")
     public List<Game> getAwayGames(@PathVariable("id") long id) {
+        logger.info("Find away games by club id: {}", id);
         return gameService.getAwayGamesByClubId(id);
     }
 
     @GetMapping("/{id}/win-games")
     public List<Game> getWinGames(@PathVariable("id") long id) {
+        logger.info("Find win games by club id: {}", id);
         return gameService.getWinGamesByClubId(id);
     }
 
     @GetMapping("/{id}/lose-games")
     public List<Game> getLoseGames(@PathVariable("id") long id) {
+        logger.info("Find lose games by club id: {}", id);
         return gameService.getLoseGamesByClubId(id);
     }
 
     @PostMapping
     public void  saveClub(@RequestBody ClubDTO clubDTO) {
-        Country country = countryService.findById(clubDTO.getCountry().getId())
+        logger.info("Save club: {}", clubDTO);
+        countryService.findById(clubDTO.getCountry().getId())
                 .orElseThrow(() -> new CountryNotFoundException("Country not found"));
 
         Club newClub = ClubMapper.INSTANCE.toClub(clubDTO);
@@ -71,15 +84,9 @@ public class ClubController {
         clubService.save(newClub);
     }
 
-
-    //TODO: FINISH SEARCH CLUBS BY NAME
-    /*@GetMapping
-    public List<Club> findClubsByName(@RequestParam("clubName") String clubName) {
-        return clubService.findByName(clubName);
-    }*/
-
     @PutMapping("/{id}")
     public ResponseEntity<String> updateClub(@RequestBody ClubDTO clubDTO) {
+        logger.info("Update club: {}", clubDTO);
         clubService.update(ClubMapper.INSTANCE.toClub(clubDTO));
         return ResponseEntity
                 .ok("Club updated successfully");
@@ -87,6 +94,7 @@ public class ClubController {
 
     @DeleteMapping("/{id}")
     public void deleteClub(@PathVariable("id") long id) {
+        logger.info("Delete club by id: {}", id);
         clubService.delete(id);
     }
 }

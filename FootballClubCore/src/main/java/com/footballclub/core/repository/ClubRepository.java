@@ -1,4 +1,4 @@
-package com.footballclubapplication.www.repository;
+package com.footballclub.core.repository;
 
 import com.footballclub.core.entity.Club;
 import com.footballclub.core.entity.Player;

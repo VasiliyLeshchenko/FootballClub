@@ -1,4 +1,4 @@
-package com.footballclubstatistics.www.repository;
+package com.footballclub.core.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.footballclub.core.entity.PlayerStatistics;

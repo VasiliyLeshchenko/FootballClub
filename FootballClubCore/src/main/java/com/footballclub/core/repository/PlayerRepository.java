@@ -1,4 +1,4 @@
-package com.footballclubapplication.www.repository;
+package com.footballclub.core.repository;
 
 import com.footballclub.core.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
