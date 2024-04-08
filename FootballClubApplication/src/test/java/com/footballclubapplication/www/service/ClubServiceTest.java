@@ -23,7 +23,7 @@ class ClubServiceTest {
     private ClubRepository clubRepository;
 
     @Test
-    void returnListOfClubs() {
+    void returnAllClubs() {
         Club club1 = new Club();
         Club club2 = new Club();
         List<Club> expectedClubs = List.of(club1, club2);
@@ -80,7 +80,7 @@ class ClubServiceTest {
     }
 
     @Test
-    void returnListOfPlayerByClubId() {
+    void returnPlayerByClubId() {
         long clubId = 3L;
         Club club = new Club();
         club.setId(clubId);
