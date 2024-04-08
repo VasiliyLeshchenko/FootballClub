@@ -38,7 +38,7 @@ public class PlayerService {
      * @return a list of all players
      */
     public List<Player> findAll() {
-        logger.info("Find all players");
+        logger.info("Finding all players");
         return playerRepository.findAll();
     }
 
@@ -48,7 +48,7 @@ public class PlayerService {
      * @return an optional player value
      */
     public Optional<Player> findById(long id) {
-        logger.info("Find player by id: {}", id);
+        logger.info("Finding player by id: {}", id);
         return playerRepository.findById(id);
     }
 
@@ -73,7 +73,7 @@ public class PlayerService {
 
     /**
      * The method changes a player's club
-     * find player by playerId, find new club by newClubId
+     * Finding player by playerId, Finding new club by newClubId
      * set new club to a player, saves changes
      * @param playerId player id
      * @param newClubId new club id

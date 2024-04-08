@@ -25,15 +25,18 @@ public class PlayerController {
 
     @GetMapping
     public List<Player> findAll() {
-        logger.info("Find all players");
+        logger.info("Finding all players");
         return playerService.findAll();
     }
 
     @GetMapping("/{id}")
     public Player findById(@PathVariable("id") long id) {
-        logger.info("Find player by id: {}", id);
+        logger.info("Finding player by id: {}", id);
         return playerService.findById(id)
-                .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
+                .orElseThrow(() -> {
+                    logger.error("Player with id {} not found", id);
+                    return new PlayerNotFoundException("Player not found");
+                });
     }
 
     @PostMapping
@@ -45,6 +48,7 @@ public class PlayerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody PlayerDTO playerDTO) {
+        logger.info("Update player by id: {}", playerDTO.getId());
         playerService.update(PlayerMapper.INSTANCE.toPlayer(playerDTO));
         return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
@@ -60,7 +64,7 @@ public class PlayerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCountry(@PathVariable("id") long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") long id) {
         logger.info("Delete player by id: {}", id);
         playerService.delete(id);
         return ResponseEntity.ok()

@@ -30,7 +30,7 @@ public class ClubService {
      * @return a list of all clubs
      */
     public List<Club> findAll() {
-        logger.info("Find all clubs");
+        logger.info("Finding all clubs");
         return clubRepository.findAll();
     }
 
@@ -40,7 +40,7 @@ public class ClubService {
      * @return an optional club value
      */
     public Optional<Club> findById(long id) {
-        logger.info("Find club by id: {}", id);
+        logger.info("Finding club by id: {}", id);
         return clubRepository.findById(id);
     }
 

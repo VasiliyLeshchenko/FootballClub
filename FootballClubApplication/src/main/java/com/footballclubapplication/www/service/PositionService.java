@@ -30,7 +30,7 @@ public class PositionService {
      * @return an optional country value
      */
     public Optional<Position> findById(long id) {
-        logger.info("Find position by id: {}", id);
+        logger.info("Finding position by id: {}", id);
         return positionRepository.findById(id);
     }
 
@@ -39,7 +39,7 @@ public class PositionService {
      * @return a list of all positions
      */
     public List<Position> findAll() {
-        logger.info("Find all positions");
+        logger.info("Finding all positions");
         return positionRepository.findAll();
     }
 

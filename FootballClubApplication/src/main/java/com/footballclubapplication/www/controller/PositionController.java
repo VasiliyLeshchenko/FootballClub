@@ -25,20 +25,23 @@ public class PositionController {
 
     @GetMapping
     public List<Position> findAll() {
-        logger.info("Find all positions");
+        logger.info("Finding all positions");
         return positionService.findAll();
     }
 
     @GetMapping("/{id}")
     public Position findById(@PathVariable("id") long id) {
-        logger.info("Find position by id: {}", id);
+        logger.info("Finding position by id: {}", id);
         return positionService.findById(id)
-                .orElseThrow(() -> new PositionNotFoundException("Position not found"));
+                .orElseThrow(() -> {
+                    logger.error("Position with id {} not found", id);
+                    return new PositionNotFoundException("Position not found");
+                });
     }
 
     @GetMapping("/{id}/players")
     public List<Player> getPlayersByPositionId(@PathVariable("id") long id){
-        logger.info("Find players by position id: {}", id);
+        logger.info("Finding players by position id: {}", id);
         return positionService.getPlayersByPositionId(id);
     }
 

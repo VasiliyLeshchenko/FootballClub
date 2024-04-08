@@ -25,15 +25,18 @@ public class GameController {
 
     @GetMapping
     public List<Game> findAll() {
-        logger.info("Find all games");
+        logger.info("Finding all games");
         return gameService.findAll();
     }
 
     @GetMapping("/{id}")
     public Game findById(@PathVariable("id") long id) {
-        logger.info("Find game by id: {}", id);
+        logger.info("Finding game by id: {}", id);
         return gameService.findById(id)
-                .orElseThrow(() -> new GameNotFoundException("Game not found"));
+                .orElseThrow(() -> {
+                    logger.error("Game with id {} not found", id);
+                    return new GameNotFoundException("Game not found");
+                });
     }
 
     //TODO: новое

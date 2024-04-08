@@ -23,26 +23,29 @@ public class CountryController {
 
     @GetMapping
     public List<Country> findAll() {
-        logger.info("Find all countries");
+        logger.info("Finding all countries");
         return countryService.findAll();
     }
 
     @GetMapping("/{id}")
     public Country findById(@PathVariable("id") long id) {
-        logger.info("Find country by id: {}", id);
+        logger.info("Finding country by id: {}", id);
         return countryService.findById(id)
-                .orElseThrow(() -> new CountryNotFoundException("Country not found"));
+                .orElseThrow(() -> {
+                    logger.error("Country with id {} not found", id);
+                    return new CountryNotFoundException("Country not found");
+                });
     }
 
     @GetMapping("/{id}/clubs")
     public List<Club> findClubsByCountryId(@PathVariable("id") long id) {
-        logger.info("Find clubs by country id: {}", id);
+        logger.info("Finding clubs by country id: {}", id);
         return countryService.findClubsByCountryId(id);
     }
 
     @GetMapping("/{id}/players")
     public List<Player> findPlayersByCountryId(@PathVariable("id") long id) {
-        logger.info("Find players by country id: {}", id);
+        logger.info("Finding players by country id: {}", id);
         return countryService.findPlayersByCountryId(id);
     }
 

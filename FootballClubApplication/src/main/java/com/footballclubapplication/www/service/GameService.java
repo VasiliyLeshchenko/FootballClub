@@ -38,7 +38,7 @@ public class GameService {
      * @return an optional game value
      */
     public Optional<Game> findById(long id) {
-        logger.info("Find game by id: {}", id);
+        logger.info("Finding game by id: {}", id);
         return gameRepository.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class GameService {
      * @return a list of all games
      */
     public List<Game> findAll() {
-        logger.info("Find all games");
+        logger.info("Finding all games");
         return gameRepository.findAll();
     }
 
@@ -57,7 +57,7 @@ public class GameService {
      * @return a list of games
      */
     public List<Game> getHomeGamesByClubId(long clubId) {
-        logger.info("Find home games by id: {}", clubId);
+        logger.info("Finding home games by id: {}", clubId);
         return gameRepository.getHomeGamesByClubId(clubId);
     }
 
@@ -67,7 +67,7 @@ public class GameService {
      * @return a list of games
      */
     public List<Game> getAwayGamesByClubId(long clubId) {
-        logger.info("Find away games by id: {}", clubId);
+        logger.info("Finding away games by id: {}", clubId);
         return gameRepository.getAwayGamesByClubId(clubId);
     }
 
@@ -88,8 +88,8 @@ public class GameService {
     }
 
     /**
-     * The method receives a game with a modified score, find a game with an identical game id,
-     * find sum home club scores, find sum away club scores,
+     * The method receives a game with a modified score, Finding a game with an identical game id,
+     * Finding sum home club scores, Finding sum away club scores,
      * set these values in game and update record in the database
      * @param gameNewScore game with score changes
      */
@@ -130,7 +130,7 @@ public class GameService {
      * @return a list of win games
      */
     public List<Game> getWinGamesByClubId(long clubId) {
-        logger.info("Find win games by id: {}", clubId);
+        logger.info("Finding win games by id: {}", clubId);
         return gameRepository.getWinGamesBy(clubId);
     }
 
@@ -140,7 +140,7 @@ public class GameService {
      * @return a list of lost games
      */
     public List<Game> getLoseGamesByClubId(long clubId) {
-        logger.info("Find lose games by id: {}", clubId);
+        logger.info("Finding lose games by id: {}", clubId);
         return gameRepository.getLoseGamesBy(clubId);
     }
 

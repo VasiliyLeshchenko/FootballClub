@@ -31,7 +31,7 @@ public class CountryService {
      * @return a list of all countries
      */
     public List<Country> findAll() {
-        logger.info("Find all countries");
+        logger.info("Finding all countries");
         return countryRepository.findAll();
     }
 
@@ -41,7 +41,7 @@ public class CountryService {
      * @return an optional country value
      */
     public Optional<Country> findById(long id) {
-        logger.info("Find country by id: {}", id);
+        logger.info("Finding country by id: {}", id);
         return countryRepository.findById(id);
     }
 
@@ -51,7 +51,7 @@ public class CountryService {
      * @return a list of clubs
      */
     public List<Club> findClubsByCountryId(long id) {
-        logger.info("Find clubs by country id: {}", id);
+        logger.info("Finding clubs by country id: {}", id);
         return countryRepository.findClubsByCountryId(id);
     }
 
@@ -61,7 +61,7 @@ public class CountryService {
      * @return a list of players
      */
     public List<Player> findPlayersByCountryId(long id) {
-        logger.info("Find players by country id: {}", id);
+        logger.info("Finding players by country id: {}", id);
         return countryRepository.findPlayersByCountryId(id);
     }
 
