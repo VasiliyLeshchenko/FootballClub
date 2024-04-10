@@ -5,9 +5,10 @@ import com.footballclub.core.entity.Player;
 import com.footballclub.core.exception.ClubNotFoundException;
 import com.footballclub.core.exception.PlayerNotFoundException;
 import com.footballclub.core.repository.PlayerRepository;
+import com.footballclubapplication.www.producer.CustomProducer;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.footballclub.core.dto.PlayerStatisticsDTO;
@@ -23,22 +24,22 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class PlayerService {
     /** Player repository property */
     private final PlayerRepository playerRepository;
     /** Club service property */
     private final ClubService clubService;
     /** Player statistics producer property */
-    private final PlayerStatisticsProducer statisticsProducer;
-    private final Logger logger = LoggerFactory.getLogger(PlayerService.class);
-
+    //private final PlayerStatisticsProducer statisticsProducer;
+    private final CustomProducer statisticsProducer;
 
     /**
      * The method gets a list of all players from the database
      * @return a list of all players
      */
     public List<Player> findAll() {
-        logger.info("Finding all players");
+        log.info("Finding all players");
         return playerRepository.findAll();
     }
 
@@ -48,7 +49,7 @@ public class PlayerService {
      * @return an optional player value
      */
     public Optional<Player> findById(long id) {
-        logger.info("Finding player by id: {}", id);
+        log.info("Finding player by id: {}", id);
         return playerRepository.findById(id);
     }
 
@@ -57,7 +58,7 @@ public class PlayerService {
      * @param player player for saving
      */
     public void save(Player player) {
-        logger.info("Save player: {}", player);
+        log.info("Save player");
         playerRepository.save(player);
     }
 
@@ -67,7 +68,7 @@ public class PlayerService {
      */
     @Transactional
     public void update(Player player) {
-        logger.info("Update player: {}", player);
+        log.info("Update player: {}", player);
         playerRepository.save(player);
     }
 
@@ -80,7 +81,7 @@ public class PlayerService {
      */
     @Transactional
     public void changeClub(long playerId, long newClubId) {
-        logger.info("Transfer player with id: {} to new club: {}", playerId, newClubId);
+        log.info("Transfer player with id: {} to new club with id: {}", playerId, newClubId);
         Player player = findById(playerId)
                 .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
 
@@ -89,8 +90,7 @@ public class PlayerService {
 
         player.setClub(newClub);
 
-        logger.info("Player updated: {}", player);
-        save(player);
+        update(player);
     }
 
     /**
@@ -98,7 +98,7 @@ public class PlayerService {
      * @param id player id
      */
     public void delete(long id) {
-        logger.info("Delete player by id: {}", id);
+        log.info("Delete player by id: {}", id);
         playerRepository.deleteById(id);
     }
 
@@ -108,7 +108,7 @@ public class PlayerService {
      * @param statistics statistics DTO
      */
     public void sendStatistics(PlayerStatisticsDTO statistics) {
-        logger.info("Send player statistics to Kafka: {}", statistics);
-        statisticsProducer.sendStatistics(statistics);
+        log.info("Send player statistics to Kafka");
+        statisticsProducer.send("player.statistics.save", statistics);
     }
 }

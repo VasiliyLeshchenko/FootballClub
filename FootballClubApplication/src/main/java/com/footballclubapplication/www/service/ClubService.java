@@ -4,8 +4,7 @@ import com.footballclub.core.entity.Club;
 import com.footballclub.core.entity.Player;
 import com.footballclub.core.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +18,18 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ClubService {
 
     /** Club repository property */
     private final ClubRepository clubRepository;
-    private final Logger logger = LoggerFactory.getLogger(ClubService.class);
 
     /**
      * The method gets a list of all clubs from the database
      * @return a list of all clubs
      */
     public List<Club> findAll() {
-        logger.info("Finding all clubs");
+        log.info("Finding all clubs");
         return clubRepository.findAll();
     }
 
@@ -40,7 +39,7 @@ public class ClubService {
      * @return an optional club value
      */
     public Optional<Club> findById(long id) {
-        logger.info("Finding club by id: {}", id);
+        log.info("Finding club by id: {}", id);
         return clubRepository.findById(id);
     }
 
@@ -49,7 +48,7 @@ public class ClubService {
      * @param club club for saving to the database
      */
     public void save(Club club) {
-        logger.info("Save club: {}", club);
+        log.info("Save club");
         clubRepository.save(club);
     }
 
@@ -59,7 +58,7 @@ public class ClubService {
      */
     @Transactional
     public void update(Club club) {
-        logger.info("Update club: {}", club);
+        log.info("Update club with id: {}", club.getId());
         clubRepository.save(club);
     }
 
@@ -68,7 +67,7 @@ public class ClubService {
      * @param id club id
      */
     public void delete(long id) {
-        logger.info("Delete club by id: {}", id);
+        log.info("Delete club by id: {}", id);
         clubRepository.deleteById(id);
     }
 
@@ -78,7 +77,7 @@ public class ClubService {
      * @return a list of players
      */
     public List<Player> getPlayersByClubId(long id) {
-        logger.info("Get players by club id: {}", id);
+        log.info("Get players by club id: {}", id);
         return clubRepository.getPlayerByClubId(id);
     }
 }

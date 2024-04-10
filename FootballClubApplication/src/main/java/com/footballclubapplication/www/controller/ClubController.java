@@ -13,14 +13,13 @@ import com.footballclubapplication.www.service.ClubService;
 import com.footballclubapplication.www.service.CountryService;
 import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MarkerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/clubs")
 @RequiredArgsConstructor
@@ -28,57 +27,56 @@ public class ClubController {
     private final ClubService clubService;
     private final CountryService countryService;
     private final GameService gameService;
-    private final Logger logger = LoggerFactory.getLogger(ClubController.class);
 
     @GetMapping
     public List<Club> findAll() {
-        logger.info("Finding all clubs");
+        log.info("Finding all clubs");
         return clubService.findAll();
     }
 
     @GetMapping("/{id}")
     public Club findById(@PathVariable("id") long id) {
-        logger.info("Finding club by id: {}", id);
+        log.info("Finding club by id: {}", id);
         return clubService.findById(id)
                 .orElseThrow(() -> {
-                    logger.error("Club with id {} not found", id);
+                    log.error("Club with id {} not found", id);
                     return new ClubNotFoundException("Club not found");
                 });
     }
 
     @GetMapping("/{id}/players")
     public List<Player> getPlayersByClubId(@PathVariable("id") long id) {
-        logger.info("Finding players by club id: {}", id);
+        log.info("Finding players by club id: {}", id);
         return clubService.getPlayersByClubId(id);
     }
 
     @GetMapping("/{id}/home-games")
     public List<Game> getHomeGames(@PathVariable("id") long id) {
-        logger.info("Finding home games by club id: {}", id);
+        log.info("Finding home games by club id: {}", id);
         return gameService.getHomeGamesByClubId(id);
     }
 
     @GetMapping("/{id}/away-games")
     public List<Game> getAwayGames(@PathVariable("id") long id) {
-        logger.info("Finding away games by club id: {}", id);
+        log.info("Finding away games by club id: {}", id);
         return gameService.getAwayGamesByClubId(id);
     }
 
     @GetMapping("/{id}/win-games")
     public List<Game> getWinGames(@PathVariable("id") long id) {
-        logger.info("Finding win games by club id: {}", id);
+        log.info("Finding win games by club id: {}", id);
         return gameService.getWinGamesByClubId(id);
     }
 
     @GetMapping("/{id}/lose-games")
     public List<Game> getLoseGames(@PathVariable("id") long id) {
-        logger.info("Finding lose games by club id: {}", id);
+        log.info("Finding lose games by club id: {}", id);
         return gameService.getLoseGamesByClubId(id);
     }
 
     @PostMapping
     public void  save(@RequestBody ClubDTO clubDTO) {
-        logger.info("Save club: {}", clubDTO);
+        log.info("Save club with id: {}", clubDTO.getId());
 
         Club newClub = ClubMapper.INSTANCE.toClub(clubDTO);
 
@@ -87,7 +85,7 @@ public class ClubController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody ClubDTO clubDTO) {
-        logger.info("Update club: {}", clubDTO);
+        log.info("Update club with id: {}", clubDTO.getId());
         clubService.update(ClubMapper.INSTANCE.toClub(clubDTO));
         return ResponseEntity
                 .ok("Club updated successfully");
@@ -95,7 +93,7 @@ public class ClubController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
-        logger.info("Delete club by id: {}", id);
+        log.info("Delete club by id: {}", id);
         clubService.delete(id);
     }
 }

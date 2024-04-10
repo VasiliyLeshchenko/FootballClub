@@ -2,10 +2,7 @@ package com.footballclub.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,8 +11,8 @@ import java.util.List;
  * @author Leshchenko Vasiliy
  * @version 0.0.1-SNAPHOT
  */
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "Player")
@@ -48,9 +45,16 @@ public class Player {
     /** Поле статистика игрока */
     @OneToMany(mappedBy = "player")
     @JsonIgnore
+    @ToString.Exclude
     private List<PlayerStatistics> playerStatistics;
 
-
+    /**
+     * Конструктор - создания объекта с определенным значением
+     * @param id - id игрока
+     */
+    public Player(long id) {
+        this.id = id;
+    }
     /**
      * Конструктор - создания объекта с определенным значением
      * @param name - имя игрока
@@ -71,5 +75,18 @@ public class Player {
         this.club = club;
         this.position = position;
         this.citizenship = citizenship;
+    }
+
+    /**
+     * Конструктор - создания объекта с определенным значением
+     * @param id - id игрока
+     * @param name - имя игрока
+     * @param club - клуб игрока
+     * @param position - позиция игрока
+     * @param citizenship - гражданство игрока
+     */
+    public Player(Long id, String name, Position position, Club club, Country citizenship) {
+        this(name, club, position, citizenship);
+        this.id = id;
     }
 }

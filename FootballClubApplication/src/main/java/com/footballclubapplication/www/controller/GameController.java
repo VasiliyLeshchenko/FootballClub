@@ -9,32 +9,31 @@ import com.footballclub.core.entity.Game;
 import com.footballclub.core.exception.GameNotFoundException;
 import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/games")
 @RequiredArgsConstructor
 public class GameController {
     private final GameService gameService;
-    private final Logger logger = LoggerFactory.getLogger(GameController.class);
 
     @GetMapping
     public List<Game> findAll() {
-        logger.info("Finding all games");
+        log.info("Finding all games");
         return gameService.findAll();
     }
 
     @GetMapping("/{id}")
     public Game findById(@PathVariable("id") long id) {
-        logger.info("Finding game by id: {}", id);
+        log.info("Finding game by id: {}", id);
         return gameService.findById(id)
                 .orElseThrow(() -> {
-                    logger.error("Game with id {} not found", id);
+                    log.error("Game with id {} not found", id);
                     return new GameNotFoundException("Game not found");
                 });
     }
@@ -42,7 +41,7 @@ public class GameController {
     //TODO: новое
     @PostMapping("/goal")
     public ResponseEntity<Void> registerGoal(@RequestBody GoalDTO goal) {
-        logger.info("Register goal: {}", goal);
+        log.info("Register goal");
         gameService.goal(goal);
         return ResponseEntity.ok()
                 .build();
@@ -50,7 +49,7 @@ public class GameController {
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody GameDTO gameDTO) {
-        logger.info("Save game: {}", gameDTO);
+        log.info("Save game");
         gameService.save(GameMapper.INSTANCE.toGame(gameDTO));
         return ResponseEntity.ok()
                 .build();
@@ -58,7 +57,7 @@ public class GameController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody GameDTO gameDTO) {
-        logger.info("Update game: {}", gameDTO);
+        log.info("Update game with id: {}", gameDTO.getId());
         gameService.update(GameMapper.INSTANCE.toGame(gameDTO));
         return ResponseEntity.ok()
                 .build();
@@ -66,7 +65,7 @@ public class GameController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
-        logger.info("Delete game by id {}", id);
+        log.info("Delete game by id {}", id);
         gameService.delete(id);
         return ResponseEntity.ok()
                 .build();

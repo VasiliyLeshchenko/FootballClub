@@ -14,9 +14,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> getAwayGamesByClubId(long clubId);
 
     @Query("SELECT g FROM Game g WHERE (g.homeClub.id= :clubId AND g.homeClubScore>g.awayClubScore) OR (g.awayClub.id= :clubId AND g.awayClubScore>g.homeClubScore)")
-    List<Game> getWinGamesBy(long clubId);
+    List<Game> getWinGamesByClubId(long clubId);
 
     @Query("SELECT g FROM Game g WHERE (g.homeClub.id= :clubId AND g.homeClubScore<g.awayClubScore) OR (g.awayClub.id= :clubId AND g.awayClubScore<g.homeClubScore)")
-    List<Game> getLoseGamesBy(long clubId);
+    List<Game> getLoseGamesByClubId(long clubId);
 
 }

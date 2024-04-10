@@ -17,7 +17,7 @@ public class NotFoundExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         logger.error(ex.getMessage(), ex);
         String body = "Your element could not be found";
-        return handleExceptionInternal(ex, body,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, body ,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 }
