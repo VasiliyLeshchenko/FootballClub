@@ -5,8 +5,7 @@ import com.footballclub.core.entity.Country;
 import com.footballclub.core.entity.Player;
 import com.footballclub.core.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,18 +19,18 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CountryService {
 
     /** Club repository property */
     private final CountryRepository countryRepository;
-    private final Logger logger = LoggerFactory.getLogger(CountryService.class);
 
     /**
      * The method gets a list of all countries from the database
      * @return a list of all countries
      */
     public List<Country> findAll() {
-        logger.info("Find all countries");
+        log.info("Finding all countries");
         return countryRepository.findAll();
     }
 
@@ -41,7 +40,7 @@ public class CountryService {
      * @return an optional country value
      */
     public Optional<Country> findById(long id) {
-        logger.info("Find country by id: {}", id);
+        log.info("Finding country by id: {}", id);
         return countryRepository.findById(id);
     }
 
@@ -51,7 +50,7 @@ public class CountryService {
      * @return a list of clubs
      */
     public List<Club> findClubsByCountryId(long id) {
-        logger.info("Find clubs by country id: {}", id);
+        log.info("Finding clubs by country id: {}", id);
         return countryRepository.findClubsByCountryId(id);
     }
 
@@ -61,7 +60,7 @@ public class CountryService {
      * @return a list of players
      */
     public List<Player> findPlayersByCountryId(long id) {
-        logger.info("Find players by country id: {}", id);
+        log.info("Finding players by country id: {}", id);
         return countryRepository.findPlayersByCountryId(id);
     }
 
@@ -70,7 +69,7 @@ public class CountryService {
      * @param country country for saving
      */
     public void save(Country country) {
-        logger.info("Save country: {}", country);
+        log.info("Save country");
         countryRepository.save(country);
     }
 
@@ -79,7 +78,7 @@ public class CountryService {
      * @param id country id
      */
     public void delete(long id) {
-        logger.info("Delete country by id: {}", id);
+        log.info("Delete country by id: {}", id);
         countryRepository.deleteById(id);
     }
 
@@ -89,7 +88,7 @@ public class CountryService {
      */
     @Transactional
     public void update(Country country) {
-        logger.info("Update country: {}", country);
+        log.info("Update country with id: {}", country.getId());
         countryRepository.save(country);
     }
 }

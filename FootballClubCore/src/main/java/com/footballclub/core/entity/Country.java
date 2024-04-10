@@ -2,14 +2,11 @@ package com.footballclub.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "Country")
@@ -24,10 +21,12 @@ public class Country {
 
     @OneToMany(mappedBy = "country")
     @JsonIgnore
+    @ToString.Exclude
     private List<Club> clubs;
 
     @OneToMany(mappedBy = "citizenship")
     @JsonIgnore
+    @ToString.Exclude
     private List<Player> players;
 
     public Country(long id) {
@@ -38,4 +37,8 @@ public class Country {
         this.name = name;
     }
 
+    public Country(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

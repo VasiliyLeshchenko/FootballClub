@@ -1,15 +1,12 @@
 package com.footballclub.core.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "Game")
@@ -37,6 +34,10 @@ public class Game {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    public Game(long id) {
+        this.id = id;
+    }
+
     public Game(Club homeClub, Club awayClub, int homeClubScore, int awayClubScore, Date date) {
         this.homeClub = homeClub;
         this.awayClub = awayClub;
@@ -45,4 +46,8 @@ public class Game {
         this.date = date;
     }
 
+    public Game(Long id, Club homeClub, Club awayClub, Integer homeClubScore, Integer awayClubScore, Date date) {
+        this(homeClub, awayClub, homeClubScore, awayClubScore, date);
+        this.id = id;
+    }
 }

@@ -6,8 +6,7 @@ import com.footballclub.core.entity.Game;
 import com.footballclub.core.exception.GameNotFoundException;
 import com.footballclub.core.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.footballclub.core.dto.PlayerStatisticsDTO;
@@ -22,6 +21,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class GameService {
     /**
      * Game repository property
@@ -30,7 +30,6 @@ public class GameService {
     private final GameRepository gameRepository;
     /** Player service property */
     private final PlayerService playerService;
-    private final Logger logger = LoggerFactory.getLogger(GameService.class);
 
     /**
      * The method gets an optional game value by game id
@@ -38,7 +37,7 @@ public class GameService {
      * @return an optional game value
      */
     public Optional<Game> findById(long id) {
-        logger.info("Find game by id: {}", id);
+        log.info("Finding game by id: {}", id);
         return gameRepository.findById(id);
     }
 
@@ -47,7 +46,7 @@ public class GameService {
      * @return a list of all games
      */
     public List<Game> findAll() {
-        logger.info("Find all games");
+        log.info("Finding all games");
         return gameRepository.findAll();
     }
 
@@ -57,7 +56,7 @@ public class GameService {
      * @return a list of games
      */
     public List<Game> getHomeGamesByClubId(long clubId) {
-        logger.info("Find home games by id: {}", clubId);
+        log.info("Finding home games for club with id: {}", clubId);
         return gameRepository.getHomeGamesByClubId(clubId);
     }
 
@@ -67,7 +66,7 @@ public class GameService {
      * @return a list of games
      */
     public List<Game> getAwayGamesByClubId(long clubId) {
-        logger.info("Find away games by id: {}", clubId);
+        log.info("Finding away games for club with id: {}", clubId);
         return gameRepository.getAwayGamesByClubId(clubId);
     }
 
@@ -76,24 +75,27 @@ public class GameService {
      * @param goal goal DTO
      */
     public void goal(GoalDTO goal) {
-        logger.info("Register goal: {}", goal);
+        log.info("Register goal");
 
         Game game = GoalMapper.toGame(goal);
         PlayerStatisticsDTO playerStatistics = GoalMapper.toPlayerStatisticsDTO(goal);
 
-        incrementScore(game);
+        game = incrementScore(game);
+        update(game);
 
-        logger.info("Send player statistics to Kafka: {}", playerStatistics);
+        log.info("Send player statistics to Kafka");
         playerService.sendStatistics(playerStatistics);
     }
 
     /**
-     * The method receives a game with a modified score, find a game with an identical game id,
-     * find sum home club scores, find sum away club scores,
-     * set these values in game and update record in the database
+     * The method receives a game with a modified score, Finding a game with an identical game id,
+     * Finding sum home club scores, Finding sum away club scores,
+     * set these values in game and return updated game
      * @param gameNewScore game with score changes
+     * @return game with updated score
      */
-    public void incrementScore(Game gameNewScore) {
+    public Game incrementScore(Game gameNewScore) {
+        log.info("Incrementing score");
         Game game = findById(gameNewScore.getId()).orElseThrow(() -> new GameNotFoundException("Game not found"));
 
         int homeClubScore = game.getHomeClubScore() + gameNewScore.getHomeClubScore();
@@ -102,7 +104,7 @@ public class GameService {
         game.setHomeClubScore(homeClubScore);
         game.setAwayClubScore(awayClubScore);
 
-        update(game);
+        return game;
     }
 
     /**
@@ -110,7 +112,7 @@ public class GameService {
      * @param game game for saving
      */
     public void save(Game game) {
-        logger.info("Save game: {}", game);
+        log.info("Save gam");
         gameRepository.save(game);
     }
 
@@ -120,7 +122,7 @@ public class GameService {
      */
     @Transactional
     public void update(Game game) {
-        logger.info("Update game: {}", game);
+        log.info("Update game with id: {}", game.getId());
         gameRepository.save(game);
     }
 
@@ -130,8 +132,8 @@ public class GameService {
      * @return a list of win games
      */
     public List<Game> getWinGamesByClubId(long clubId) {
-        logger.info("Find win games by id: {}", clubId);
-        return gameRepository.getWinGamesBy(clubId);
+        log.info("Finding win games for club with id: {}", clubId);
+        return gameRepository.getWinGamesByClubId(clubId);
     }
 
     /**
@@ -140,8 +142,8 @@ public class GameService {
      * @return a list of lost games
      */
     public List<Game> getLoseGamesByClubId(long clubId) {
-        logger.info("Find lose games by id: {}", clubId);
-        return gameRepository.getLoseGamesBy(clubId);
+        log.info("Finding lose games for club with id: {}", clubId);
+        return gameRepository.getLoseGamesByClubId(clubId);
     }
 
     /**
@@ -149,7 +151,7 @@ public class GameService {
      * @param id game id
      */
     public void delete(long id) {
-        logger.info("Delete game: {}", id);
+        log.info("Delete game by id: {}", id);
         gameRepository.deleteById(id);
     }
 }

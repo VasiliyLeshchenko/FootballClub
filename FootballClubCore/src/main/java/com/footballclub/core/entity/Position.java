@@ -2,14 +2,11 @@ package com.footballclub.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "position")
@@ -24,6 +21,7 @@ public class Position {
 
     @OneToMany(mappedBy = "position")
     @JsonIgnore
+    @ToString.Exclude
     private List<Player> players;
 
     public Position(long id) {
@@ -34,4 +32,8 @@ public class Position {
         this.name = name;
     }
 
+    public Position(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

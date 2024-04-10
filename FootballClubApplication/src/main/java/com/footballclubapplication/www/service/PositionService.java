@@ -4,11 +4,9 @@ import com.footballclub.core.entity.Player;
 import com.footballclub.core.entity.Position;
 import com.footballclub.core.repository.PositionRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,10 +17,10 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class PositionService {
     /** Player repository property */
     private final PositionRepository positionRepository;
-    private final Logger logger = LoggerFactory.getLogger(PositionService.class);
 
     /**
      * The method gets an optional position value by position id
@@ -30,7 +28,7 @@ public class PositionService {
      * @return an optional country value
      */
     public Optional<Position> findById(long id) {
-        logger.info("Find position by id: {}", id);
+        log.info("Finding position by id: {}", id);
         return positionRepository.findById(id);
     }
 
@@ -39,7 +37,7 @@ public class PositionService {
      * @return a list of all positions
      */
     public List<Position> findAll() {
-        logger.info("Find all positions");
+        log.info("Finding all positions");
         return positionRepository.findAll();
     }
 
@@ -48,7 +46,7 @@ public class PositionService {
      * @return a list of players
      */
     public List<Player> getPlayersByPositionId(long id) {
-        logger.info("Get players by position id: {}", id);
+        log.info("Get players by position id: {}", id);
         return positionRepository.getPlayersByPositionId(id);
     }
 
@@ -57,7 +55,7 @@ public class PositionService {
      * @param position position for saving
      */
     public void save(Position position) {
-        logger.info("Save position: {}", position);
+        log.info("Save position: {}", position);
         positionRepository.save(position);
     }
 
@@ -67,7 +65,7 @@ public class PositionService {
      */
     @Transactional
     public void update(Position position) {
-        logger.info("Update position: {}", position);
+        log.info("Update position: {}", position);
         positionRepository.save(position);
     }
 
@@ -76,7 +74,7 @@ public class PositionService {
      * @param id position id
      */
     public void delete(long id) {
-        logger.info("Delete position by id: {}", id);
+        log.info("Delete position by id: {}", id);
         positionRepository.deleteById(id);
     }
 }

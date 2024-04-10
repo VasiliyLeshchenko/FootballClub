@@ -1,13 +1,10 @@
 package com.footballclub.core.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Generated;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "player_statistics")
@@ -27,5 +24,15 @@ public class PlayerStatistics {
 
     @Column(name = "goals")
     private Integer goals;
-    
+
+    public PlayerStatistics(Long id) {
+        this.id = id;
+    }
+
+    public PlayerStatistics(Long id, Player player, Club club, Integer goals) {
+        this.id = id;
+        this.player = player;
+        this.club = club;
+        this.goals = goals;
+    }
 }
