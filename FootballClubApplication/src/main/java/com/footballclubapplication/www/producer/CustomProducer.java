@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-
 import java.util.Properties;
 
 @Slf4j
@@ -23,6 +22,7 @@ public class CustomProducer {
         log.info("Create CustomProducer with url {}", url);
         Properties props = new Properties();
         props.put("bootstrap.servers", url);
+        //props.put("producer.bootstrap-servers", url);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producer = new KafkaProducer<>(props);
