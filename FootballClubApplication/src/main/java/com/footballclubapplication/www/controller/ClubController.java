@@ -1,16 +1,12 @@
 package com.footballclubapplication.www.controller;
 
-import ch.qos.logback.classic.Level;
 import com.footballclub.core.dto.ClubDTO;
 import com.footballclub.core.dto.mapper.ClubMapper;
 import com.footballclub.core.entity.Club;
-import com.footballclub.core.entity.Country;
 import com.footballclub.core.entity.Game;
 import com.footballclub.core.entity.Player;
 import com.footballclub.core.exception.ClubNotFoundException;
-import com.footballclub.core.exception.CountryNotFoundException;
 import com.footballclubapplication.www.service.ClubService;
-import com.footballclubapplication.www.service.CountryService;
 import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClubController {
     private final ClubService clubService;
-    private final CountryService countryService;
     private final GameService gameService;
 
     @GetMapping

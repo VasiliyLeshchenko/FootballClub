@@ -10,7 +10,7 @@
 	<groupId>com.footballclubapplication.www</groupId>
 	<artifactId>football-club-application</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>FootballClubApplication</name>
 	<description>FootballClubApplication</description>
 	<properties>
@@ -69,7 +69,18 @@
 			<artifactId>football-club-core</artifactId>
 			<version>0.0.1-SNAPHOT</version>
 		</dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.12.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>

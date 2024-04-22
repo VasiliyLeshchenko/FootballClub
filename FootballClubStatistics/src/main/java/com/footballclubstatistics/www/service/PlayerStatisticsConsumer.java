@@ -1,18 +1,20 @@
 package com.footballclubstatistics.www.service;
 
+import com.footballclubstatistics.www.annotation.ReceiverMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import com.footballclub.core.dto.PlayerStatisticsDTO;
 
-@RequiredArgsConstructor
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PlayerStatisticsConsumer {
     private final PlayerStatisticsService playerStatisticsService;
 
-    //Первый способ
+    @ReceiverMessage
     @KafkaListener(topics = "player.statistics.save", groupId = "playerConsumer",
         properties = {
             "key.deserializer=org.apache.kafka.common.serialization.StringDeserializer",
@@ -21,6 +23,5 @@ public class PlayerStatisticsConsumer {
     public void listen(PlayerStatisticsDTO statisticsDTO) {
         log.info("Received player statistics message");
         playerStatisticsService.save(statisticsDTO);
-
     }
 }

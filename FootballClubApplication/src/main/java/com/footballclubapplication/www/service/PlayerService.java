@@ -5,6 +5,8 @@ import com.footballclub.core.entity.Player;
 import com.footballclub.core.exception.ClubNotFoundException;
 import com.footballclub.core.exception.PlayerNotFoundException;
 import com.footballclub.core.repository.PlayerRepository;
+import com.footballclub.core.repository.PlayerStatisticsRepository;
+import com.footballclubapplication.www.event.SendStatisticsPublisher;
 import com.footballclubapplication.www.producer.CustomProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +33,10 @@ public class PlayerService {
     /** Club service property */
     private final ClubService clubService;
     /** Player statistics producer property */
-    //private final PlayerStatisticsProducer statisticsProducer;
     private final CustomProducer statisticsProducer;
+    private final PlayerStatisticsRepository statisticsRepository;
+    private final SendStatisticsPublisher publisher;
+    //private final PlayerStatisticsProducer statisticsProducer;
 
     /**
      * The method gets a list of all players from the database
@@ -109,6 +113,8 @@ public class PlayerService {
      */
     public void sendStatistics(PlayerStatisticsDTO statistics) {
         log.info("Send player statistics to Kafka");
+        publisher.publishStatistics("Send statistics from PlayerService.sendStatics()");
         statisticsProducer.send("player.statistics.save", statistics);
+        //statisticsProducer.sendStatistics(statistics);
     }
 }

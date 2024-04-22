@@ -10,7 +10,7 @@
 	<groupId>com.footballclubstatistics.www</groupId>
 	<artifactId>football-club-statistics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>FootballClubStatistics</name>
 	<description>FootballClubStatistics</description>
 	<properties>
@@ -61,7 +61,17 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.12.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
