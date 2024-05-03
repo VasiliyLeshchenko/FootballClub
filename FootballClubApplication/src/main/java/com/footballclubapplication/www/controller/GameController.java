@@ -11,6 +11,7 @@ import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class GameController {
                 });
     }
 
-    //TODO: новое
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping("/goal")
     public ResponseEntity<Void> registerGoal(@RequestBody GoalDTO goal) {
         log.info("Register goal");
@@ -47,6 +48,7 @@ public class GameController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping
     public ResponseEntity<String> save(@RequestBody GameDTO gameDTO) {
         log.info("Save game");
@@ -55,6 +57,7 @@ public class GameController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody GameDTO gameDTO) {
         log.info("Update game with id: {}", gameDTO.getId());
@@ -63,6 +66,7 @@ public class GameController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         log.info("Delete game by id {}", id);

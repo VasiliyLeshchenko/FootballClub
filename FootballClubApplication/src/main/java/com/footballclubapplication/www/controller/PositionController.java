@@ -9,6 +9,7 @@ import com.footballclubapplication.www.service.PositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class PositionController {
         return positionService.getPlayersByPositionId(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping
     public ResponseEntity<String> save(@RequestBody PositionDTO positionDTO) {
         log.info("Saving position : {}", positionDTO);
@@ -51,6 +53,7 @@ public class PositionController {
                 .ok("The position was been saved");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody PositionDTO positionDTO) {
         log.info("Updating position : {}", positionDTO);
@@ -59,6 +62,7 @@ public class PositionController {
                 .ok("The position has been successfully updated");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         log.info("Deleting position by id: {}", id);
