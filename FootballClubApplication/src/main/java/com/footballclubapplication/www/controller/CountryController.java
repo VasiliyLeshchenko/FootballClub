@@ -9,6 +9,7 @@ import com.footballclub.core.exception.CountryNotFoundException;
 import com.footballclubapplication.www.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class CountryController {
         return countryService.findPlayersByCountryId(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping
     public void save(
             @RequestBody CountryDTO countryDTO) {
@@ -56,6 +58,7 @@ public class CountryController {
         countryService.save(newCountry);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PutMapping("/{id}")
     public void update(@RequestBody CountryDTO countryDTO) {
         log.info("Update country: {}", countryDTO);
@@ -63,6 +66,7 @@ public class CountryController {
         countryService.update(country);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         log.info("Delete country by id: {}", id);

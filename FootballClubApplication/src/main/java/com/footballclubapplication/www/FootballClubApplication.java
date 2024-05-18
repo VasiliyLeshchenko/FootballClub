@@ -9,13 +9,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import java.util.Properties;
 
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.footballclub.core", "com.footballclubapplication.www"})
 @EnableJpaRepositories(basePackages = {"com.footballclub.core.repository"})
-@EntityScan("com.footballclub.core.entity")
+@EntityScan(basePackages = {"com.footballclub.core.entity", "com.footballclubapplication.www.entity"})
 @EnableAspectJAutoProxy
 public class FootballClubApplication {
 	@Value("${spring.kafka.bootstrap-servers}")
@@ -32,9 +33,7 @@ public class FootballClubApplication {
 		props.put("bootstrap.servers", bootstrapServers);
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-		return new KafkaProducer<String, String>(
-				props
-		);
+		return new KafkaProducer<String, String>(props);
 	}
 
 	public static void main(String[] args) {

@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
+//org.hibernate.SQL - select
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "Country")
+@NamedEntityGraph(name = "country_entity-graph", attributeNodes = @NamedAttributeNode("clubs"))
 public class Country {
     @Id
     @Column(name = "country_id")
@@ -20,7 +21,7 @@ public class Country {
     private String name;
 
     @OneToMany(mappedBy = "country")
-    @JsonIgnore
+    //@JsonIgnore
     @ToString.Exclude
     private List<Club> clubs;
 

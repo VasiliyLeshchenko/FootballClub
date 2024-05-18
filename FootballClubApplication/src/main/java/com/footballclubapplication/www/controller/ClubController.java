@@ -11,6 +11,7 @@ import com.footballclubapplication.www.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,6 +70,7 @@ public class ClubController {
         return gameService.getLoseGamesByClubId(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping
     public void  save(@RequestBody ClubDTO clubDTO) {
         log.info("Save club with id: {}", clubDTO.getId());
@@ -78,6 +80,7 @@ public class ClubController {
         clubService.save(newClub);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody ClubDTO clubDTO) {
         log.info("Update club with id: {}", clubDTO.getId());
@@ -86,6 +89,7 @@ public class ClubController {
                 .ok("Club updated successfully");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         log.info("Delete club by id: {}", id);

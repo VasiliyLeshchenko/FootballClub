@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class PlayerController {
                 });
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PostMapping
     public ResponseEntity<String> save(@RequestBody PlayerDTO playerDTO) {
 
@@ -43,6 +45,7 @@ public class PlayerController {
         return ResponseEntity.ok("The player has been saved");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@RequestBody PlayerDTO playerDTO) {
         log.info("Update player with id: {}", playerDTO.getId());
@@ -50,6 +53,7 @@ public class PlayerController {
         return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @PatchMapping("/{id}")
     public ResponseEntity<String> changeClub(
             @PathVariable("id") long id,
@@ -60,6 +64,7 @@ public class PlayerController {
         return new ResponseEntity<>("The player has been updated", HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         log.info("Delete player by id: {}", id);
