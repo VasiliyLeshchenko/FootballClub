@@ -21,6 +21,7 @@ public class Club {
     private String name;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "country_id", referencedColumnName = "country_id")
     private Country country;
 

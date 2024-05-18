@@ -15,7 +15,7 @@ import java.util.Properties;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.footballclub.core", "com.footballclubapplication.www"})
-@EnableJpaRepositories(basePackages = {"com.footballclub.core.repository", "com.footballclubapplication.www.repository"})
+@EnableJpaRepositories(basePackages = {"com.footballclub.core.repository"})
 @EntityScan(basePackages = {"com.footballclub.core.entity", "com.footballclubapplication.www.entity"})
 @EnableAspectJAutoProxy
 public class FootballClubApplication {

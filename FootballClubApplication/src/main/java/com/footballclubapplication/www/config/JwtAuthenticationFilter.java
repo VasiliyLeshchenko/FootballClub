@@ -1,7 +1,8 @@
 package com.footballclubapplication.www.config;
 
+import com.footballclubapplication.www.dto.RolesDTO;
+import com.footballclubapplication.www.service.AuthenticationService;
 import com.footballclubapplication.www.service.JwtService;
-import com.footballclubapplication.www.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,19 +10,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -29,8 +32,9 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
+    public static final String ROLE_PREFIX = "ROLE_";
     private final JwtService jwtService;
-    private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @Override
     protected void doFilterInternal(
@@ -39,35 +43,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // Получаем токен из заголовка
-        var authHeader = request.getHeader(HEADER_NAME);
+        String authHeader = request.getHeader(HEADER_NAME);
         if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Обрезаем префикс и получаем имя пользователя из токена
-        var jwt = authHeader.substring(BEARER_PREFIX.length());
-        var username = jwtService.extractUserName(jwt);
-        log.info("Username : {}", username);
-        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService
-                    .userDetailsService()
-                    .loadUserByUsername(username);
+        String token = authHeader.substring(BEARER_PREFIX.length());
+        String subject = jwtService.extractSubject(token);
+        log.info("Subject : {}", subject);
+        if (StringUtils.isNotEmpty(subject) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (jwtService.verify(token)) {
+                Jwt jwt = jwtService.jwt(token);
+                RolesDTO roles = authenticationService.getUserRoles(Long.parseLong(subject));
+                List<SimpleGrantedAuthority> authorities = roles.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority(ROLE_PREFIX + role))
+                        .toList();
 
-            // Если токен валиден, то аутентифицируем пользователя
-            if (jwtService.verify(jwt)) {
-                log.info("Authenticated user: {}", username);
-                log.info("Authenticated role: {}", userDetails.getAuthorities());
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                log.info("token: {}" , authToken);
+                JwtAuthenticationToken authToken = new JwtAuthenticationToken(jwt, authorities);
 
+                log.info("token: {}" , authToken);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 context.setAuthentication(authToken);
                 log.info("context: {}", context);
