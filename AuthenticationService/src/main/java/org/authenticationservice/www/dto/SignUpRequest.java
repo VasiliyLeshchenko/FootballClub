@@ -1,10 +1,10 @@
-package com.footballclubapplication.www.dto;
+package org.authenticationservice.www.dto;
 
 import lombok.Data;
 
 @Data
 public class SignUpRequest {
-    private String username;
+    private String login;
     private String email;
     private String password;
 }
