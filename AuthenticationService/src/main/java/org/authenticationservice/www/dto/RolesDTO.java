@@ -1,12 +1,13 @@
-package com.footballclubapplication.www.dto;
+package org.authenticationservice.www.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationResponse {
-    private String token;
+public class RolesDTO {
+    private List<String> roles;
 }
